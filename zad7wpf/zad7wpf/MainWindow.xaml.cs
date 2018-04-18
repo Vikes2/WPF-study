@@ -29,21 +29,20 @@ namespace zad7wpf
 
             ListPersons.ItemsSource = Persons;
             RegionCB.ItemsSource = Enum.GetValues(typeof(CitiesEnum));
-            
-            
-        }
+                    }
 
         
-
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persons.Add(new Person());
+            ListPersons.SelectedIndex = Persons.Count - 1;
             
         }
 
         private void deleteBtn_Click(object sender, RoutedEventArgs e)
         {
             Persons.Remove((Person)ListPersons.SelectedItem);
+            ListPersons.SelectedIndex = Persons.Count - 1;
         }
     }
 }
