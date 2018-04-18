@@ -1,0 +1,20 @@
+﻿<Window x:Class="zad4wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:zad4wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525"
+         KeyDown="canabis_KeyDown"
+        >
+        
+
+    <Canvas Name="myCanvas" Background="White" 
+            MouseLeftButtonDown="canabis_MouseLeftButtonDown" 
+            MouseLeftButtonUp="canabis_MouseLeftButtonUp" 
+            MouseMove="canabis_MouseMove" >
+            
+    </Canvas>
+    
+</Window>
