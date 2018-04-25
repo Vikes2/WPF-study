@@ -1,0 +1,102 @@
+﻿<Window x:Class="zad7wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:zad7wpf" Language="pl-PL"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="300" Width="800">
+    <Window.Resources>
+        <local:PriceConverter x:Key="PriceConverter"/>
+        <local:GenderToBackgroundConverter x:Key="GenderToBackgroundConverter"
+                DefaultBrush="{x:Null}"
+                HighlightBrush="GreenYellow"/>
+        <DataTemplate x:Key="GenderDataTemplate">
+            <Border Background="{Binding Path=Gender,
+                        Converter={StaticResource GenderToBackgroundConverter}}">
+                
+            </Border>
+            
+        </DataTemplate>
+
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox ItemTemplate="{StaticResource GenderDataTemplate}" Name="ListPersons" Grid.Column="0" MinWidth="200" ScrollViewer.HorizontalScrollBarVisibility="Visible" >
+            <ListBox.Template>
+                <ControlTemplate>
+                    <StackPanel>
+                        <ItemsPresenter />
+                        <ListBoxItem MouseDoubleClick="ListBoxItem_MouseDoubleClick" Content="dodaj nowa osobe..."/>
+                    </StackPanel>
+                </ControlTemplate>
+            </ListBox.Template>
+        </ListBox>
+        <DockPanel Grid.Column="1" DataContext="{Binding ElementName=ListPersons, Path=SelectedItem}" IsEnabled="{Binding ElementName=ListPersons, Path=SelectedItem, TargetNullValue=False}">
+            <Grid DockPanel.Dock="Top" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Margin="3,3">Imię</Label>
+                <TextBox Margin="3,3" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label Margin="3,3" Grid.Row="1" Grid.Column="0">Nazwisko</Label>
+                <TextBox Margin="3,3" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </Grid>
+            <GroupBox Margin="3,3" DockPanel.Dock="Top" >
+                <GroupBox.Header>
+                    <CheckBox Margin="3,3" Name="GroupCB" IsChecked="{Binding Path=Description, Mode=TwoWay}">
+                        Dane szczegółowe
+                    </CheckBox>
+                </GroupBox.Header>
+
+                <Grid IsEnabled="{Binding Path=Description}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Margin="3,3" Grid.Row="0">Płeć</Label>
+                    <Label Margin="3,3" Grid.Row="1">Adres e-mail</Label>
+                    <Label Margin="3,3" Grid.Row="2">Kwota wpłaty(netto)</Label>
+                    <Label Margin="3,3" Grid.Row="3">Region</Label>
+                    <Label Margin="3,3" Grid.Row="4">Poziom dostępu</Label>
+                    <!--<Grid Grid.Row="0" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" Content="Mężczyzna"/>
+                        <RadioButton Grid.Column="1" Content="Kobieta"/>
+                    </Grid>-->
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="3,3"  Name="GenderCB"   SelectedItem="{Binding Path=Gender}" ></ComboBox>
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="3,3"  Text="{Binding Path=Mail, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="3,3"  Text="{Binding Path=Price, ValidatesOnExceptions=True, Converter={StaticResource PriceConverter }}" ></TextBox>
+                    <ComboBox Grid.Row="3" Grid.Column="1" Margin="3,3"  Name="RegionCB"   SelectedItem="{Binding Path=City}" ></ComboBox>
+                    <Slider Grid.Row="4" Grid.Column="1" Margin="3,3" Minimum="0" Maximum="5" TickFrequency="1" Value="{Binding Path=AccessLevel}"></Slider>
+
+
+                </Grid>
+            </GroupBox>
+            <Button Margin="3,3" DockPanel.Dock="Bottom" Name="deleteBtn" Click="deleteBtn_Click">Usuń</Button>
+        </DockPanel>
+
+
+
+    </Grid>
+</Window>
