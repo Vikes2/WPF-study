@@ -14,7 +14,21 @@
         <DataTemplate x:Key="GenderDataTemplate">
             <Border Background="{Binding Path=Gender,
                         Converter={StaticResource GenderToBackgroundConverter}}">
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Path=Name}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=LastName}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=Mail}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=Gender}"/>
+
+                </Grid>
             </Border>
             
         </DataTemplate>
@@ -27,7 +41,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox ItemTemplate="{StaticResource GenderDataTemplate}" Name="ListPersons" Grid.Column="0" MinWidth="200" ScrollViewer.HorizontalScrollBarVisibility="Visible" >
+        <ListBox ItemTemplate="{StaticResource GenderDataTemplate}" Name="ListPersons" Grid.Column="0" MinWidth="200" HorizontalContentAlignment="Stretch" >
             <ListBox.Template>
                 <ControlTemplate>
                     <StackPanel>

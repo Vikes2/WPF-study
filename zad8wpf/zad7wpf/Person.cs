@@ -32,7 +32,18 @@ namespace zad7wpf
         public CitiesEnum City { get; set; }
         public int AccessLevel { get; set; }
         private bool description;
-        public GenderEnum Gender { get; set; }
+        private GenderEnum gender;
+
+        public GenderEnum Gender
+        {
+            get { return gender; }
+            set
+            {
+                gender = value; OnPropertyChanged("Gender");
+            }
+        }
+
+        
 
         public decimal Price
         {
@@ -62,19 +73,19 @@ namespace zad7wpf
         public string Name
         {
             get { return name; }
-            set { name = value; OnPropertyChanged("personView"); }
+            set { name = value; OnPropertyChanged("Name"); }
         }
 
         public string LastName
         {
             get { return lastName; }
-            set { lastName = value; OnPropertyChanged("personView"); }
+            set { lastName = value; OnPropertyChanged("LastName"); }
         }
 
         public string Mail
         {
             get { return mail; }
-            set { mail = value; OnPropertyChanged("personView"); }
+            set { mail = value; OnPropertyChanged("Mail"); }
         }
 
         public string PersonView
