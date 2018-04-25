@@ -30,9 +30,42 @@ namespace zad7wpf
             ListPersons.ItemsSource = Persons;
             RegionCB.ItemsSource = Enum.GetValues(typeof(CitiesEnum));
             GenderCB.ItemsSource = Enum.GetValues(typeof(GenderEnum));
+
+            View.GroupDescriptions.Add(new PropertyGroupDescription("Gender"));
         }
 
-        
+        private ListCollectionView View
+        {
+            get
+            {
+                return (ListCollectionView)CollectionViewSource.GetDefaultView(Persons);
+            }
+        }
+
+        private void Filter(object sender, RoutedEventArgs e)
+        {
+            decimal minimumPrice;
+            if (Decimal.TryParse(txtMinPrice.Text, out minimumPrice))
+            {
+                View.Filter = delegate (object item)
+                {
+                    Person pers = item as Person;
+                    if (pers != null)
+                    {
+                        return (pers.Price > minimumPrice);
+                    }
+                    return false;
+                };
+            }
+        }
+
+        private void FilterNone(object sender, RoutedEventArgs e)
+        {
+            View.Filter = null;
+        }
+
+
+
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Persons.Add(new Person());
@@ -44,6 +77,11 @@ namespace zad7wpf
         {
             Persons.Remove((Person)ListPersons.SelectedItem);
             ListPersons.SelectedIndex = Persons.Count - 1;
+        }
+
+        private void GenderCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            View.Refresh();
         }
     }
 }

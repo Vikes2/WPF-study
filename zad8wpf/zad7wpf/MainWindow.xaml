@@ -10,7 +10,7 @@
         <local:PriceConverter x:Key="PriceConverter"/>
         <local:GenderToBackgroundConverter x:Key="GenderToBackgroundConverter"
                 DefaultBrush="{x:Null}"
-                HighlightBrush="GreenYellow"/>
+                HighlightBrush="#FF415326"/>
         <DataTemplate x:Key="GenderDataTemplate">
             <Border Background="{Binding Path=Gender,
                         Converter={StaticResource GenderToBackgroundConverter}}">
@@ -33,15 +33,36 @@
             
         </DataTemplate>
 
+        <DataTemplate x:Key="GroupTemplate">
+            <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" Foreground="White" Background="DodgerBlue" Margin="0,5,0,0" Padding="3"/>
+        </DataTemplate>
+
     </Window.Resources>
-    
+
+
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <ListBox ItemTemplate="{StaticResource GenderDataTemplate}" Name="ListPersons" Grid.Column="0" MinWidth="200" HorizontalContentAlignment="Stretch" >
+        <ToolBar Grid.Row="0" Grid.ColumnSpan="2">
+            <Label>Cena</Label>
+            <TextBox MinWidth="50" Name="txtMinPrice"/>
+            <Button Click="Filter">Filtruj</Button>
+            <Button Click="FilterNone">Usuń Filtr</Button>
+            <Separator/>
+
+            
+        </ToolBar>
+
+        <ListBox Grid.Row="1" Grid.Column="0" Name="ListPersons" Margin="5" Padding ="3,3,0,3"  ItemTemplate="{StaticResource GenderDataTemplate}"   MinWidth="200" HorizontalContentAlignment="Stretch" >
             <ListBox.Template>
                 <ControlTemplate>
                     <StackPanel>
@@ -50,8 +71,14 @@
                     </StackPanel>
                 </ControlTemplate>
             </ListBox.Template>
+            <ListBox.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource GroupTemplate}"/>
+            </ListBox.GroupStyle>
         </ListBox>
-        <DockPanel Grid.Column="1" DataContext="{Binding ElementName=ListPersons, Path=SelectedItem}" IsEnabled="{Binding ElementName=ListPersons, Path=SelectedItem, TargetNullValue=False}">
+
+        
+
+        <DockPanel Grid.Row="1" Grid.Column="1" DataContext="{Binding ElementName=ListPersons, Path=SelectedItem}" IsEnabled="{Binding ElementName=ListPersons, Path=SelectedItem, TargetNullValue=False}">
             <Grid DockPanel.Dock="Top" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -90,17 +117,10 @@
                     <Label Margin="3,3" Grid.Row="2">Kwota wpłaty(netto)</Label>
                     <Label Margin="3,3" Grid.Row="3">Region</Label>
                     <Label Margin="3,3" Grid.Row="4">Poziom dostępu</Label>
-                    <!--<Grid Grid.Row="0" Grid.Column="1" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <RadioButton Grid.Column="0" Content="Mężczyzna"/>
-                        <RadioButton Grid.Column="1" Content="Kobieta"/>
-                    </Grid>-->
-                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="3,3"  Name="GenderCB"   SelectedItem="{Binding Path=Gender}" ></ComboBox>
+
+                    <ComboBox Grid.Row="0" Grid.Column="1" Margin="3,3"  Name="GenderCB" SelectionChanged="GenderCB_SelectionChanged"  SelectedItem="{Binding Path=Gender}" ></ComboBox>
                     <TextBox Grid.Row="1" Grid.Column="1" Margin="3,3"  Text="{Binding Path=Mail, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                    <TextBox Grid.Row="2" Grid.Column="1" Margin="3,3"  Text="{Binding Path=Price, ValidatesOnExceptions=True, Converter={StaticResource PriceConverter }}" ></TextBox>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="3,3"  Text="{Binding Path=Price, ValidatesOnExceptions=True, Converter={StaticResource PriceConverter}, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
                     <ComboBox Grid.Row="3" Grid.Column="1" Margin="3,3"  Name="RegionCB"   SelectedItem="{Binding Path=City}" ></ComboBox>
                     <Slider Grid.Row="4" Grid.Column="1" Margin="3,3" Minimum="0" Maximum="5" TickFrequency="1" Value="{Binding Path=AccessLevel}"></Slider>
 
